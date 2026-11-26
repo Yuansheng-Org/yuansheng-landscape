@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f5fa">
+  <meta name="description" content="浏览 RISC-V 基础软件和场景的成熟度等级、评估平台及判定详情。">
+  <title>源生 Landscape v0.8 · RISC-V 基础软件生态成熟度评价</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="detail.css">
+  <script src="performance-samples.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="catalog.js" defer></script>
+  <script src="logos.js" defer></script>
+  <script src="detail.js" defer></script>
+  <script src="chip.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到内容</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="源生 Landscape 首页">
+        <span class="brand-logo"><img src="yuansheng-logo.png" alt="" width="976" height="544"></span>
+        <span class="brand-name">Landscape</span>
+      </a>
+      <nav aria-label="主导航">
+        <a href="#catalog" id="nav-catalog" aria-current="page">软件目录</a>
+        <a href="#scenarios">场景</a>
+        <a href="#standards">测评标准</a>
+        <a href="#platform">Yuansheng-bench 测试平台</a>
+      </nav>
+      <span class="prototype-label"><span aria-hidden="true"></span>模拟数据</span>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    <div id="catalog-view">
+      <section class="hero" aria-labelledby="home-title">
+        <div class="hero-copy">
+          <h1 id="home-title">RISC-V 基础软件生态<br>成熟度评价 Landscape</h1>
+          <p>查看基础软件生态成熟度</p>
+        </div>
+        <div class="hero-art" aria-hidden="true"><canvas id="chip-art" width="1120" height="500"></canvas></div>
+      </section>
+
+      <section class="overview" aria-labelledby="overview-title">
+        <div class="section-heading">
+          <h2 id="overview-title">生态概览</h2>
+        </div>
+        <div class="stats-grid">
+          <section class="stats-card progress-card" aria-labelledby="progress-title">
+            <div class="stats-heading">
+              <h3 id="progress-title">软件适配与评估进度</h3>
+              <span class="total-count">软件总数 <strong id="package-total"></strong> 项</span>
+            </div>
+            <div id="progress-bar" class="progress-bar" aria-hidden="true"></div>
+            <ul id="progress-legend" class="progress-legend" role="list" aria-label="各阶段数量与占比"></ul>
+            <dl class="progress-summary" aria-label="累计进度">
+              <div><dt>已适配</dt><dd id="progress-adapted"></dd></div>
+              <div><dt>已评估</dt><dd id="progress-assessed"></dd></div>
+              <div><dt>已优化</dt><dd id="progress-optimized"></dd></div>
+            </dl>
+          </section>
+          <section class="stats-card" aria-labelledby="level-chart-title">
+            <div class="stats-heading">
+              <h3 id="level-chart-title">成熟度等级分布</h3>
+              <span class="chart-unit" id="rating-count"></span>
+            </div>
+            <div id="level-bar" class="chart-bar" aria-hidden="true"></div>
+            <div id="level-legend" class="chart-legend legend-levels"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="directory" id="catalog" aria-labelledby="directory-title">
+        <div class="section-heading">
+          <h2 id="directory-title" tabindex="-1">软件目录</h2>
+          <span class="result-count" id="result-count" role="status"></span>
+        </div>
+        <div class="directory-frame">
+          <div class="toolbar">
+            <div class="search-field">
+              <span class="search-icon" aria-hidden="true"></span>
+              <label class="visually-hidden" for="software-search">搜索软件</label>
+              <input id="software-search" type="search" placeholder="搜索软件或关键词" autocomplete="off">
+            </div>
+            <div class="select-field">
+              <label class="visually-hidden" for="layer-select">软件分类</label>
+              <select id="layer-select"><option value="">全部分类</option></select>
+            </div>
+            <button class="text-button reset-button" type="button" id="reset-filters" hidden>清除筛选</button>
+          </div>
+          <div id="chart-filters" class="chart-filters" hidden></div>
+          <div class="table-wrap" id="table-wrap" tabindex="0" role="region" aria-label="软件列表">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col"><button type="button" data-sort="name">软件名称<span class="sort-icon" aria-hidden="true"></span></button></th>
+                  <th scope="col">分类</th>
+                  <th scope="col"><button type="button" data-sort="level"><span class="long-label">成熟度等级</span><span class="short-label">等级</span><span class="sort-icon" aria-hidden="true"></span></button></th>
+                  <th scope="col"><span class="long-label">测试平台（RISC-V）</span><span class="short-label">RISC-V</span></th>
+                  <th scope="col"><span class="long-label">参考平台（ARM）</span><span class="short-label">ARM</span></th>
+                  <th scope="col" class="row-end"><span class="visually-hidden">详情</span></th>
+                </tr>
+              </thead>
+              <tbody id="software-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-state" hidden>
+            <strong>未找到匹配的软件</strong>
+            <p>试试其他关键词或清除当前筛选。</p>
+            <button type="button" class="outline-button" id="empty-reset">清除筛选</button>
+          </div>
+          <div class="pagination" id="pagination" hidden>
+            <span id="page-summary"></span>
+            <div class="page-buttons" aria-label="分页">
+              <button type="button" class="outline-button" id="prev-page">上一页</button>
+              <span id="page-number"></span>
+              <button type="button" class="outline-button" id="next-page">下一页</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="subpage" id="scenarios-view" aria-labelledby="scenarios-title" hidden>
+      <div class="subpage-heading">
+        <h1 id="scenarios-title" tabindex="-1">场景</h1>
+        <p>按应用场景查看软件组件和成熟度。场景评级与组件均为示例。</p>
+      </div>
+      <div class="scenario-list" id="scenario-list"></div>
+    </section>
+
+    <section class="subpage" id="standards-view" aria-labelledby="standards-title" hidden>
+      <div class="subpage-heading">
+        <h1 id="standards-title" tabindex="-1">测评标准</h1>
+      </div>
+      <div class="resource-list">
+        <article class="resource-card">
+          <h2>第五代精简指令集架构 基础软件生态成熟度评价规范</h2>
+          <p>本目录按 L0–L4 展示成熟度。软件详情列出开源社区记录、功能完整性、性能先进性、运行稳定性和指令集配置兼容性五项判定维度。</p>
+          <p><a href="https://ycnmpmekqely.feishu.cn/docx/I2HpdBp8DoPzxfxqmsicXKTlnde#BSfMdnrYPoboaNxFbOycaftenmY" target="_blank" rel="noopener noreferrer">查看项目文档中的测评标准说明</a></p>
+        </article>
+        <article class="resource-card">
+          <h2>Sapling: Quantifying and Measuring the Maturity of the RISC-V Software Ecosystem</h2>
+          <p>ICSE 2026 论文，介绍对 RISC-V 软件生态成熟度开展自动化和量化评估的研究方法。</p>
+          <p><a href="https://doi.org/10.1145/3744916.3773168" target="_blank" rel="noopener noreferrer">阅读 Sapling 论文</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="subpage" id="platform-view" aria-labelledby="platform-title" hidden>
+      <div class="subpage-heading">
+        <h1 id="platform-title" tabindex="-1">Yuansheng-bench 测试平台</h1>
+        <p>面向开源软件适配与性能优化，支持在 RISC-V 与 ARM 平台上自动构建软件、运行功能测试并采集性能数据。</p>
+      </div>
+      <div class="resource-list">
+        <article class="resource-card platform-panel">
+          <h2>获取 Yuansheng-bench</h2>
+          <p><a href="https://github.com/Yuansheng-Org/yuansheng-bench" target="_blank" rel="noopener noreferrer">打开项目仓库</a></p>
+        </article>
+      </div>
+    </section>
+
+    <div id="detail-view" hidden></div>
+    <noscript>请启用 JavaScript 以查看软件目录和详情。</noscript>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner"><span>源生 Landscape</span><span>v0.8 · RISC-V 基础软件生态成熟度评价</span></div>
+  </footer>
+</body>
+</html>
