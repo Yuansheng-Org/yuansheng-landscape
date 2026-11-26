@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "software_id": "scikit-learn",
+  "software_name": "scikit-learn",
+  "tested_on": "2026-11-26",
+  "runs": [
+    {
+      "id": 493,
+      "generation": 0,
+      "created_at": "2026-07-15T16:24:42.737437+00:00",
+      "arch": "riscv64",
+      "status": "succeeded",
+      "platform": "2044",
+      "commit": "bb9df11710fc918df3110565b5145b8247c0ab47",
+      "patch_sha256": null,
+      "recipe": "15-scikit-learn-cpu-benchmark",
+      "functional": {},
+      "measurements": [
+        {
+          "case": "hist_gradient_boosting_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 7636490944.0,
+          "samples": 1
+        },
+        {
+          "case": "kmeans_fit_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 6070996224.0,
+          "samples": 1
+        },
+        {
+          "case": "linear_regression_fit_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 4064538587.0,
+          "samples": 1
+        },
+        {
+          "case": "linear_svc_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 5177184948.0,
+          "samples": 1
+        },
+        {
+          "case": "logistic_regression_fit_lbfgs",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 5786201067.0,
+          "samples": 1
+        },
+        {
+          "case": "nearest_neighbors_kneighbors",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 4412057224.0,
+          "samples": 1
+        },
+        {
+          "case": "pairwise_distances_euclidean",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 3574822122.0,
+          "samples": 1
+        },
+        {
+          "case": "pca_fit_transform_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 4675883635.0,
+          "samples": 1
+        },
+        {
+          "case": "random_forest_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 8232691863.0,
+          "samples": 1
+        },
+        {
+          "case": "random_forest_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 7989089161.0,
+          "samples": 1
+        },
+        {
+          "case": "ridge_fit_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 4169615201.0,
+          "samples": 1
+        },
+        {
+          "case": "sgd_classifier_fit_sparse",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 4364321104.0,
+          "samples": 1
+        },
+        {
+          "case": "svc_rbf_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 6350078184.0,
+          "samples": 1
+        },
+        {
+          "case": "truncated_svd_fit_transform_sparse",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 6620000682.0,
+          "samples": 1
+        }
+      ]
+    },
+    {
+      "id": 494,
+      "generation": 0,
+      "created_at": "2026-07-15T16:24:42.744440+00:00",
+      "arch": "arm64",
+      "status": "succeeded",
+      "platform": "iscas-kunpeng",
+      "commit": "bb9df11710fc918df3110565b5145b8247c0ab47",
+      "patch_sha256": null,
+      "recipe": "15-scikit-learn-cpu-benchmark",
+      "functional": {},
+      "measurements": [
+        {
+          "case": "hist_gradient_boosting_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 2770543691.0,
+          "samples": 1
+        },
+        {
+          "case": "kmeans_fit_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1913266940.0,
+          "samples": 1
+        },
+        {
+          "case": "linear_regression_fit_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1496577886.0,
+          "samples": 1
+        },
+        {
+          "case": "linear_svc_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 2201294513.0,
+          "samples": 1
+        },
+        {
+          "case": "logistic_regression_fit_lbfgs",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1775632485.0,
+          "samples": 1
+        },
+        {
+          "case": "nearest_neighbors_kneighbors",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1729842699.0,
+          "samples": 1
+        },
+        {
+          "case": "pairwise_distances_euclidean",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1364942439.0,
+          "samples": 1
+        },
+        {
+          "case": "pca_fit_transform_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1791117355.0,
+          "samples": 1
+        },
+        {
+          "case": "random_forest_fit",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 3448745012.0,
+          "samples": 1
+        },
+        {
+          "case": "random_forest_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 3476215443.0,
+          "samples": 1
+        },
+        {
+          "case": "ridge_fit_dense",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1440405822.0,
+          "samples": 1
+        },
+        {
+          "case": "sgd_classifier_fit_sparse",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 1561930038.0,
+          "samples": 1
+        },
+        {
+          "case": "svc_rbf_predict",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 2341283525.0,
+          "samples": 1
+        },
+        {
+          "case": "truncated_svd_fit_transform_sparse",
+          "metric": "duration_time",
+          "unit": null,
+          "variant": "baseline",
+          "mean": 2131673103.0,
+          "samples": 1
+        }
+      ]
+    }
+  ],
+  "assessment": {
+    "id": 5,
+    "revision": 9,
+    "version": "bb9df11710fc918df3110565b5145b8247c0ab47",
+    "target": "2044",
+    "reference": "iscas-kunpeng",
+    "rule_version": "draft-1030.v8",
+    "confirmed": false,
+    "level": null,
+    "dimensions": {
+      "community": {
+        "status": "scored",
+        "score": 1.0,
+        "provisional_score": null
+      },
+      "functional": {
+        "status": "unknown",
+        "score": null,
+        "provisional_score": null
+      },
+      "performance": {
+        "status": "unknown",
+        "score": null,
+        "provisional_score": null
+      },
+      "stability": {
+        "status": "unknown",
+        "score": null,
+        "provisional_score": null
+      },
+      "architecture": {
+        "status": "unknown",
+        "score": null,
+        "provisional_score": null
+      }
+    },
+    "timings": [],
+    "evidence_sha256": [
+      "58dcb8e2487ab4474fa40b7ea41e9f74ff251a1921f0cde657c976ebd1b5788d",
+      "7a201b11a5684b7892421cdba98c8b1de5b5d8dbc9667320913452e29b895e46",
+      "866abd650ee10886c0e53a64bc43518b2e523bd3f5d8034fac35935c597b3c98",
+      "9a16219894635471a63618e118aa34df80b9cca92bd5718be06835d98f6100e4"
+    ]
+  },
+  "result_id": "c36b6be23ca35d11f2163035bb9bb9c47bfcd4b530169711e15e5239e7a2563c"
+}
