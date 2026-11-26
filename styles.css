@@ -94,10 +94,9 @@ button:disabled { opacity: .44; cursor: default; }
 .stats-heading { min-height: 28px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .stats-heading h3 { font-size: .9375rem; margin: 0; font-weight: 680; }
 .chart-unit { color: var(--muted); font: .8125rem var(--mono); }
-[data-stage="optimized"] { --stage-color: #23724f; --stage-ink: #fff; }
-[data-stage="assessed"] { --stage-color: #55ad80; }
-[data-stage="adapted"] { --stage-color: #a4d6b4; }
-[data-stage="adapting"] { --stage-color: #a3cbed; }
+[data-stage="assessed"] { --stage-color: #23724f; --stage-ink: #fff; }
+[data-stage="measured"] { --stage-color: #a4d6b4; }
+[data-stage="pending"] { --stage-color: #a3cbed; }
 .progress-bar { display: flex; gap: 2px; height: 19px; background: var(--surface-raised); overflow: hidden; margin: 12px 0 10px; border-radius: 4px; }
 .progress-bar span { display: grid; place-items: center; min-width: 0; overflow: hidden; background: var(--stage-color); color: var(--stage-ink, var(--text)); font: 650 .6875rem var(--mono); white-space: nowrap; }
 .progress-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 14px; margin: 0; padding: 0; list-style: none; }

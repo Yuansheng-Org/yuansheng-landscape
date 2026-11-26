@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Yuansheng Bench · Landscape result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "result_id", "software_id", "software_name", "tested_on", "runs", "assessment"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "result_id": {"$ref": "#/$defs/hash"},
+    "software_id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "software_name": {"$ref": "#/$defs/text"},
+    "tested_on": {"type": "string", "format": "date"},
+    "runs": {"type": "array", "items": {"$ref": "#/$defs/run"}},
+    "assessment": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/assessment"}]}
+  },
+  "if": {"properties": {"assessment": {"type": "null"}}},
+  "then": {"properties": {"runs": {"minItems": 1, "maxItems": 2}}},
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "text": {"type": "string", "minLength": 1},
+    "optionalText": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/text"}]},
+    "positive": {"type": "integer", "minimum": 1},
+    "decimal": {"type": "string", "pattern": "^[0-9]+([.][0-9]+)?([Ee][+-]?[0-9]+)?$"},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "measurement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case", "metric", "unit", "variant", "mean", "samples"],
+      "properties": {
+        "case": {"$ref": "#/$defs/text"}, "metric": {"$ref": "#/$defs/text"},
+        "unit": {"$ref": "#/$defs/optionalText"}, "variant": {"enum": ["baseline", "candidate"]},
+        "mean": {"type": "number"}, "samples": {"$ref": "#/$defs/positive"}
+      }
+    },
+    "run": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "generation", "created_at", "arch", "platform", "status", "commit", "patch_sha256", "recipe", "functional", "measurements"],
+      "properties": {
+        "id": {"$ref": "#/$defs/positive"}, "generation": {"type": "integer", "minimum": 0},
+        "created_at": {"type": ["string", "null"], "format": "date-time"},
+        "arch": {"enum": ["riscv64", "arm64"]}, "platform": {"$ref": "#/$defs/optionalText"},
+        "status": {"enum": ["succeeded", "failed", "cancelled", null]},
+        "commit": {"type": ["null", "string"], "pattern": "^[0-9a-fA-F]{7,64}$"},
+        "patch_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/hash"}]},
+        "recipe": {"$ref": "#/$defs/optionalText"},
+        "functional": {"type": "object", "propertyNames": {"enum": ["pass", "fail", "skip", "other"]}, "additionalProperties": {"type": "integer", "minimum": 0}},
+        "measurements": {"type": "array", "items": {"$ref": "#/$defs/measurement"}}
+      }
+    },
+    "dimension": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "score", "provisional_score"],
+      "properties": {
+        "status": {"enum": ["scored", "unknown", "exempt", "provisional", "waiver_pending", "waiver_denied"]},
+        "score": {"$ref": "#/$defs/score"}, "provisional_score": {"$ref": "#/$defs/score"}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "scored"}}}, "then": {"properties": {"score": {"type": "number"}}}},
+        {"if": {"properties": {"status": {"const": "provisional"}}}, "then": {"properties": {"provisional_score": {"type": "number"}, "score": {"type": "null"}}}}
+      ]
+    },
+    "assessment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "revision", "version", "target", "reference", "rule_version", "confirmed", "level", "dimensions", "timings", "evidence_sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/positive"}, "revision": {"$ref": "#/$defs/positive"},
+        "version": {"$ref": "#/$defs/text"}, "target": {"$ref": "#/$defs/text"}, "reference": {"$ref": "#/$defs/optionalText"},
+        "rule_version": {"$ref": "#/$defs/text"}, "confirmed": {"type": "boolean"},
+        "level": {"enum": [null, "L0", "L1", "L2", "L3", "L4"]},
+        "dimensions": {
+          "type": "object", "required": ["community", "functional", "performance", "stability", "architecture"],
+          "propertyNames": {"enum": ["community", "functional", "performance", "stability", "architecture"]},
+          "additionalProperties": {"$ref": "#/$defs/dimension"}
+        },
+        "timings": {"type": "array", "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["name", "rv_seconds", "arm_seconds", "rv_repetitions", "arm_repetitions"],
+          "properties": {
+            "name": {"$ref": "#/$defs/text"}, "rv_seconds": {"$ref": "#/$defs/decimal"}, "arm_seconds": {"$ref": "#/$defs/decimal"},
+            "rv_repetitions": {"$ref": "#/$defs/positive"}, "arm_repetitions": {"$ref": "#/$defs/positive"}
+          }
+        }},
+        "evidence_sha256": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}}
+      },
+      "if": {"properties": {"confirmed": {"const": true}}},
+      "then": {"properties": {"level": {"type": "string"}}}
+    }
+  }
+}

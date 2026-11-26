@@ -10,8 +10,10 @@
   <link rel="stylesheet" href="detail.css">
   <script src="performance-samples.js" defer></script>
   <script src="data.js" defer></script>
+  <script src="published-results.js" defer></script>
   <script src="catalog.js" defer></script>
   <script src="logos.js" defer></script>
+  <script src="report.js" defer></script>
   <script src="detail.js" defer></script>
   <script src="chip.js" defer></script>
   <script src="app.js" defer></script>
@@ -30,7 +32,7 @@
         <a href="#standards">测评标准</a>
         <a href="#platform">Yuansheng-bench 测试平台</a>
       </nav>
-      <span class="prototype-label"><span aria-hidden="true"></span>模拟数据</span>
+      <a class="prototype-label" href="https://github.com/Yuansheng-Org/yuansheng-landscape/tree/main/results">提交测试结果</a>
     </div>
   </header>
 
@@ -51,15 +53,15 @@
         <div class="stats-grid">
           <section class="stats-card progress-card" aria-labelledby="progress-title">
             <div class="stats-heading">
-              <h3 id="progress-title">软件适配与评估进度</h3>
+              <h3 id="progress-title">软件测试与评级覆盖</h3>
               <span class="total-count">软件总数 <strong id="package-total"></strong> 项</span>
             </div>
             <div id="progress-bar" class="progress-bar" aria-hidden="true"></div>
             <ul id="progress-legend" class="progress-legend" role="list" aria-label="各阶段数量与占比"></ul>
             <dl class="progress-summary" aria-label="累计进度">
-              <div><dt>已适配</dt><dd id="progress-adapted"></dd></div>
-              <div><dt>已评估</dt><dd id="progress-assessed"></dd></div>
-              <div><dt>已优化</dt><dd id="progress-optimized"></dd></div>
+              <div><dt>有测试记录</dt><dd id="progress-measured"></dd></div>
+              <div><dt>已确认评级</dt><dd id="progress-assessed"></dd></div>
+              <div><dt>结果文件</dt><dd id="progress-reports"></dd></div>
             </dl>
           </section>
           <section class="stats-card" aria-labelledby="level-chart-title">

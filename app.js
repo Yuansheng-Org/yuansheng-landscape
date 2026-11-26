@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const { packages: scenarioExamples, levels, platforms, scenarios } = window.LandscapeData;
+  const { packages: scenarioExamples, levels, scenarios } = window.LandscapeData;
   const packages = window.SoftwareCatalog;
   const stageCounts = window.SoftwareProgressStages.map((stage) => ({
     ...stage,
@@ -40,8 +40,7 @@
 
   function renderProgress() {
     const total = packages.length;
-    const adapted = stageCounts.filter((stage) => stage.adapted).reduce((sum, stage) => sum + stage.count, 0);
-    const optimized = stageCounts.find((stage) => stage.id === "optimized").count;
+    const measured = packages.filter((pkg) => pkg.reports.length).length;
     const segments = stageCounts.map((stage) => ({
       ...stage,
       share: total ? stage.count / total * 100 : 0,
@@ -55,7 +54,7 @@
         <span class="progress-legend-name">${escapeHtml(label)}</span>
         <span class="progress-legend-data"><strong>${count} 项</strong> · ${share.toFixed(1)}%</span>
       </li>`).join("");
-    for (const [id, count] of [["adapted", adapted], ["assessed", assessedPackages.length], ["optimized", optimized]]) {
+    for (const [id, count] of [["measured", measured], ["assessed", assessedPackages.length], ["reports", window.LandscapeReports.length]]) {
       byId(`progress-${id}`).innerHTML = `<strong>${count}</strong> 项`;
     }
   }
@@ -64,7 +63,7 @@
     const selected = state.level;
     const focusIndex = legend.contains(document.activeElement) ? document.activeElement.dataset.level : null;
     const assessed = assessedPackages.length;
-    byId("rating-count").textContent = `已评估 ${assessed} 项`;
+    byId("rating-count").textContent = `已确认评级 ${assessed} 项`;
 
     byId("level-bar").innerHTML = levelCounts.map((count, index) => count
       ? `<span class="${selected !== null && selected !== index ? "dimmed" : ""}"
@@ -120,9 +119,9 @@
         </a></td>
         <td class="category-column">${escapeHtml(pkg.layer)}</td>
         <td>${pkg.stage.assessed ? badge(pkg.level)
-          : `<span class="stage-badge">${pkg.stage.id === "adapted" ? "待评估" : escapeHtml(pkg.stage.label)}</span>`}</td>
-        <td>${escapeHtml(pkg.platforms?.target ?? platforms.target)}</td>
-        <td>${escapeHtml(pkg.platforms?.reference ?? platforms.reference)}</td>
+          : `<span class="stage-badge">${escapeHtml(pkg.stage.label)}</span>`}</td>
+        <td>${escapeHtml(pkg.platforms.riscv64 ?? "—")}</td>
+        <td>${escapeHtml(pkg.platforms.arm64 ?? "—")}</td>
         <td class="row-end" aria-hidden="true"><span class="row-chevron"></span></td>
       </tr>`).join("");
 
@@ -161,7 +160,7 @@
     return `<article class="scenario-card">
       <header><h2>${escapeHtml(scenario.name)}</h2><span>${badge(scenario.level)}</span></header>
       <ul class="scenario-components" aria-label="软件组件">${components.map((pkg) =>
-        `<li><a href="${packageLink(pkg.id, "example")}">${escapeHtml(pkg.name)}</a></li>`).join("")}</ul>
+        `<li><a href="${packageLink(pkg.id, packages.some((p) => p.id === pkg.id && p.current) ? "software" : "example")}">${escapeHtml(pkg.name)}</a></li>`).join("")}</ul>
     </article>`;
   }).join("");
 
@@ -181,12 +180,13 @@
     let heading;
     document.title = catalogTitle;
     if (isDetail) {
-      const id = hash.slice(hash.indexOf("/") + 1);
+      const [id, reportId] = hash.slice(hash.indexOf("/") + 1).split("/");
       const records = isExample ? scenarioExamples : packages;
       const pkg = records.find((item) => encodeURIComponent(item.id) === id);
-      detail.innerHTML = pkg ? window.renderSoftwareDetail(pkg, isExample) : (
+      detail.innerHTML = pkg ? (isExample ? window.renderScenarioExample(pkg) : window.renderReportPage(pkg, reportId)) : (
         '<div class="not-found"><h1 id="detail-title" tabindex="-1">未找到该软件</h1><a href="#catalog">返回软件目录</a></div>'
       );
+      if (pkg && !isExample) window.loadSelectedReport(detail, pkg, reportId);
       document.title = `${pkg?.name ?? "未找到该软件"} · 源生 Landscape v0.8`;
       heading = byId("detail-title");
     } else if (subpages.includes(hash)) {
